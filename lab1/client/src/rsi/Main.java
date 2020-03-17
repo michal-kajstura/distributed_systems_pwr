@@ -25,11 +25,19 @@ public class Main {
             while (true) {
                 showMethods(methodList);
                 Method method = chooseMethod(methodList);
+
                 if (method == null)
                     break;
                 Vector<Object> methodParams = getParams(method);
-                result = srv.execute("MojSerwer." + method.name, methodParams);
-                System.out.println("Wynik to: " + result);
+
+                if (method.asyn) {
+                    var callback = new AsyncCb();
+                    srv.executeAsync("MojSerwer." + method.name, methodParams, callback);
+                } else {
+                    result = srv.execute("MojSerwer." + method.name, methodParams);
+                    System.out.println("Wynik to: " + result);
+                    System.out.println("\n");
+                }
             }
 
             System.out.println("Koniec programu");
@@ -83,9 +91,10 @@ public class Main {
     private static Method parseMethod(String toParse) {
         var tokens = toParse.split(";");
         var paramTypes = new ArrayList<String>();
-        for (int i = 1; i < tokens.length - 1; i++)
+        for (int i = 1; i < tokens.length - 2; i++)
             paramTypes.add(tokens[i]);
-        return new Method(tokens[0], paramTypes, tokens[tokens.length - 1]);
+        var asyn = tokens[tokens.length - 1].equals("true");
+        return new Method(tokens[0], paramTypes, tokens[tokens.length - 2], asyn);
     }
 }
 
@@ -93,11 +102,13 @@ class Method {
     public String name;
     public String description;
     public List<String> paramTypes;
+    public boolean asyn;
 
-    public Method(String name, List<String> paramTypes, String description) {
+    public Method(String name, List<String> paramTypes, String description, boolean asyn) {
         this.name = name;
         this.paramTypes = paramTypes;
         this.description = description;
+        this.asyn = asyn;
     }
 
     @Override

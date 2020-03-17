@@ -13,9 +13,9 @@ public class Server {
 
     public Vector<String> show() {
         var methodList = new Vector<String>();
-        methodList.addElement("intCalculate;Integer;Integer;String;Kalkulator");
-        methodList.addElement("myHello;String;String;Powitanie");
-        methodList.addElement("maxPrime;Integer;Integer;Integer;Liczba pierwsza");
+        methodList.addElement("intCalculate;Integer;Integer;String;Kalkulator;false");
+        methodList.addElement("myHello;String;String;Powitanie;false");
+        methodList.addElement("maxPrime;Integer;Integer;Integer;Liczba pierwsza;true");
         return methodList;
     }
 
