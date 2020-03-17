@@ -18,36 +18,38 @@ public class Main {
             Object result = srv.execute("MojSerwer.show", params);
             var methodList = (List<String>) result;
 
-            for (int i=0; i < methodList.size(); i++) {
-                System.out.println(String.valueOf(i) + ". " + methodList.get(i));
-            }
 
-            System.out.print("Podaj indeks: ");
-            var chosenIndex = scanner.nextInt();
-            var chosenMethod = methodList.get(chosenIndex);
-            var method = parseMethod(chosenMethod);
-            System.out.println(method);
-
-            scanner = new Scanner(System.in);
-            var methodParams = new Vector<>();
-            for (var t: method.paramTypes) {
-                System.out.print("Podaj parametr (" + t + "): ");
-                var paramStr = scanner.nextLine();
-
-                Object castedParam = null;
-                if (t.equals("String")) {
-                    castedParam = paramStr;
-                } else {
-                    var absoluteType = "java.lang." + t;
-                    var klass = Class.forName(absoluteType);
-                    var classConverter = klass.getMethod("valueOf", String.class);
-                    castedParam = classConverter.invoke(klass, paramStr);
+            while(true) {
+                for (int i=0; i < methodList.size(); i++) {
+                    System.out.println(String.valueOf(i) + ". " + methodList.get(i));
                 }
-                methodParams.addElement(castedParam);
-            }
+                System.out.print("Podaj indeks: ");
+                var chosenIndex = scanner.nextInt();
+                var chosenMethod = methodList.get(chosenIndex);
+                var method = parseMethod(chosenMethod);
+                System.out.println(method);
 
-            result = srv.execute("MojSerwer." + method.name, methodParams);
-            System.out.println(result);
+                scanner = new Scanner(System.in);
+                var methodParams = new Vector<>();
+                for (var t : method.paramTypes) {
+                    System.out.print("Podaj parametr (" + t + "): ");
+                    var paramStr = scanner.nextLine();
+
+                    Object castedParam = null;
+                    if (t.equals("String")) {
+                        castedParam = paramStr;
+                    } else {
+                        var absoluteType = "java.lang." + t;
+                        var klass = Class.forName(absoluteType);
+                        var classConverter = klass.getMethod("valueOf", String.class);
+                        castedParam = classConverter.invoke(klass, paramStr);
+                    }
+                    methodParams.addElement(castedParam);
+                }
+
+                result = srv.execute("MojSerwer." + method.name, methodParams);
+                System.out.println(result);
+            }
 
         } catch (Exception exception) {
             System.err.println("Klient XML_RPC: " + exception);

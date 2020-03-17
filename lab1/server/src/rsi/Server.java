@@ -1,17 +1,21 @@
 package rsi;
-import java.lang.reflect.Method;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Vector;
 
 public class Server {
+
+    public static final String DATE_PATTERN = "EEEE dd MMMM yyyy hh:mm:ss";
+
     public Vector<String> show() {
         var methodList = new Vector<String>();
         methodList.addElement("intCalculate;Integer;Integer;String;Kalkulator");
         methodList.addElement("myHello;String;String;Powitanie");
-        methodList.addElement("maxPrime;Integer;Integer;Liczba pierwsza");
+        methodList.addElement("maxPrime;Integer;Integer;Integer;Liczba pierwsza");
         return methodList;
     }
 
@@ -51,16 +55,40 @@ public class Server {
         }
     }
 
-    public String myHello(String name, String locate) {
-        return "bla";
+    public String myHello(String name, String locale) {
+        var loc = new Locale(locale);
+        var dateFormat = new SimpleDateFormat(DATE_PATTERN, loc);
+        var formatted = dateFormat.format(new Date());
+
+        var builder = new StringBuilder();
+        builder.append("Witaj, ");
+        builder.append(name);
+        builder.append('\n');
+        builder.append(formatted);
+        return builder.toString();
     }
 
-    public int maxPrime(int delay, int value) {
+    public int maxPrime(int delay, int value1, int value2) {
         try {
             Thread.sleep(delay);
         } catch (Exception e) {
-
         }
-        return 7 + value;
+
+        int biggestPrime = 2;
+
+        for (int i = value2; i >= value1; i--) {
+            if(isPrime(i)) {
+                biggestPrime = i;
+                break;
+            }
+        }
+        return biggestPrime;
+    }
+
+    private boolean isPrime(int number) {
+        for (int i = 2; i <= number / 2; i++)
+            if (number % i == 0)
+                return false;
+        return true;
     }
 }
