@@ -33,8 +33,14 @@ public class Server {
     public String intCalculate(int a, int b, String c) {
         var builder = new StringBuilder();
         for (var operator: c.toCharArray()) {
-            var result = makeOperation(a, b, operator);
-            var equation = String.valueOf(a) + operator + String.valueOf(b) + "=" + String.valueOf(result);
+            var resultStr = "";
+            if (operator == '/' && b == 0) {
+                resultStr = " operacja niedozwolona (dzielenie przez 0)";
+            } else {
+                var result = makeOperation(a, b, operator);
+                resultStr = String.valueOf(result);
+            }
+            var equation = String.valueOf(a) + operator + String.valueOf(b) + "=" + resultStr;
             builder.append(equation + "\n");
         }
         return builder.toString();
