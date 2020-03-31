@@ -1,6 +1,7 @@
 package rsi;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.rmi.Naming;
@@ -31,16 +32,21 @@ public class MyClient {
 
         var pairs = new ArrayList<Pair>();
         for (int i = 0; i < nSets; i++) {
-            System.out.print("\nPodaj x: ");
-            var from = scanner.nextInt();
-            System.out.print("Podaj y: ");
-            var to = scanner.nextInt();
-
-            if (from >= to) {
-                System.out.println("X nie może być większe od Y. Spróbuj ponownie");
+            try {
+                System.out.print("\nPodaj x: ");
+                var from = scanner.nextLong();
+                System.out.print("Podaj y: ");
+                var to = scanner.nextLong();
+                if (from >= to) {
+                    System.out.println("X nie może być większe od Y. Spróbuj ponownie");
+                    i -= 1;
+                } else{
+                    pairs.add(new Pair(from, to));
+                }
+            } catch (InputMismatchException ex) {
+                scanner = new Scanner(System.in);
                 i -= 1;
-            } else{
-                pairs.add(new Pair(from, to));
+                System.out.println("Podana wartość musi być liczbą typu long");
             }
         }
 
