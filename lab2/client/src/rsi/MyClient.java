@@ -36,7 +36,12 @@ public class MyClient {
             System.out.print("Podaj y: ");
             var to = scanner.nextInt();
 
-            pairs.add(new Pair(from, to));
+            if (from >= to) {
+                System.out.println("X nie może być większe od Y. Spróbuj ponownie");
+                i -= 1;
+            } else{
+                pairs.add(new Pair(from, to));
+            }
         }
 
         return pairs;
