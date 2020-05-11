@@ -61,10 +61,10 @@ namespace Client
             klient3.ObliczCos(2);
             Console.WriteLine("... poczekaj chwilę na odbiór wyników");
             Console.WriteLine("... nacisnij <ENTER> aby zakończyć");
-            Console.ReadLine();
             Thread.Sleep(5000);
             klient3.Close();
             Console.WriteLine("KONIEC KLIENT3");
+            Console.ReadLine();
         }
     }
 }

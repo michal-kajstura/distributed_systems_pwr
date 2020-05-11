@@ -34,11 +34,8 @@ namespace Host
 
 
                 host.Open();
-                Console.WriteLine("Host1 uruchomiony");
                 host2.Open();
-                Console.WriteLine("Host2 uruchomiony");
                 host3.Open();
-                Console.WriteLine("Host3 uruchomiony");
                 Console.ReadLine();
                 host.Close();
                 host2.Close();

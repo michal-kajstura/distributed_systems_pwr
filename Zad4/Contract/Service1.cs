@@ -47,6 +47,7 @@ namespace Contract
         }
         public void ObliczCos(int sek)
         {
+            Console.WriteLine("..wywolano Oblicz({0})", sek);
             if (sek < 10)
                 Thread.Sleep(sek * 1000);
             else
@@ -56,6 +57,7 @@ namespace Contract
 
         public void Silnia(double n)
         {
+            Console.WriteLine("..wywolano Silnia({0})", n);
             Thread.Sleep(1000);
             result = 1;
             for (int i = 1; i <= n; i++)
