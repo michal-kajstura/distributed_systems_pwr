@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="lab5.RestLibrary" CodeBehind="RestLibrary.svc.cs" %>
